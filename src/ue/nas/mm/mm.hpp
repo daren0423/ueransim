@@ -71,6 +71,9 @@ class NasMm
     int64_t m_lastTimePlmnSearchFailureLogged{};
     // Last time MM state changed
     int64_t m_lastTimeMmStateChange{};
+    // Test hook: force a one-shot Mobility Registration Update after initial registration.
+    // 法一測試用：註冊成功後第一次 MM cycle 觸發一次 Mobility Registration Update，之後不再重複。
+    bool m_testForceMobilityUpdateDone{};
 
     friend class UeCmdHandler;
     friend class NasSm;

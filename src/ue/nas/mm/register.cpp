@@ -433,6 +433,14 @@ void NasMm::receiveInitialRegistrationAccept(const nas::RegistrationAccept &msg)
         m_registeredForEmergency = true;
 
     m_logger->info("%s is successful", nas::utils::EnumToString(regType));
+
+    // 法一測試：Harmony AMF 的 allowed TAI list 一定含註冊 TAC，原生觸發不了 ENTER_UNLISTED_TRACKING_AREA。
+    // 在 initial registration 完成後，強制觸發一次 Mobility Registration Update（只觸發一次）。
+    if (!m_testForceMobilityUpdateDone)
+    {
+        m_testForceMobilityUpdateDone = true;
+        mobilityUpdatingRequired(ERegUpdateCause::ENTER_UNLISTED_TRACKING_AREA);
+    }
 }
 
 void NasMm::receiveMobilityRegistrationAccept(const nas::RegistrationAccept &msg)
